@@ -15,7 +15,7 @@ export function SyncButton({ size = "sm", variant = "outline" }: { size?: "sm" |
     setBusy(true);
     setMsg(null);
     try {
-      const res = await fetch("/api/sync", { method: "POST" });
+      const res = await fetch("/api/sync", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" });
       const r = await res.json();
       setMsg({ ok: !!r.ok, text: r.message });
       router.refresh();

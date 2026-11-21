@@ -6,9 +6,13 @@ export function plaidClient(overrides?: { clientId: string; secret: string; env:
   const clientId = overrides?.clientId ?? process.env.PLAID_CLIENT_ID ?? "";
   const secret = overrides?.secret ?? process.env.PLAID_SECRET ?? "";
   const env = overrides?.env ?? plaidEnvName();
+  // Developer hook for automated tests: with PLAID_ENV=sandbox, PLAID_BASE_URL may point at a Plaid
+  // look-alike running on this computer. Anything else is ignored, so real keys can't be redirected.
+  const testBase = process.env.PLAID_BASE_URL;
+  const basePath = env === "sandbox" && testBase && /^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(testBase) ? testBase : PlaidEnvironments[env];
   return new PlaidApi(
     new Configuration({
-      basePath: PlaidEnvironments[env],
+      basePath,
       baseOptions: { headers: { "PLAID-CLIENT-ID": clientId, "PLAID-SECRET": secret } },
     }),
   );

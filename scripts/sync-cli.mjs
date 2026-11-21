@@ -18,7 +18,12 @@ if (!port) {
 port ||= 3000;
 
 try {
-  const res = await fetch(`http://127.0.0.1:${port}/api/sync`, { method: "POST" });
+  const res = await fetch(`http://127.0.0.1:${port}/api/sync`, {
+    method: "POST",
+    // The app only accepts JSON writes that say they come from its own address.
+    headers: { "content-type": "application/json", origin: `http://127.0.0.1:${port}` },
+    body: "{}",
+  });
   const r = await res.json();
   console.log(r.ok ? "Sync finished." : "Sync did not finish cleanly.", r.message);
   process.exit(r.ok ? 0 : 1);

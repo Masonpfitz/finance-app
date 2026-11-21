@@ -12,7 +12,8 @@
     "build": "next build",
     "sync": "node scripts/sync-cli.mjs",
     "typecheck": "tsc --noEmit",
-    "demo": "node scripts/launch.mjs --demo"
+    "demo": "node scripts/launch.mjs --demo",
+    "check:security": "node scripts/check-security.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

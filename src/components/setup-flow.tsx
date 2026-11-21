@@ -96,7 +96,7 @@ export function SetupFlow({ state }: { state: SetupState }) {
     setLinking(true);
     setLinkMsg(null);
     try {
-      const t = await fetch("/api/plaid/link-token", { method: "POST" }).then((r) => r.json());
+      const t = await fetch("/api/plaid/link-token", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" }).then((r) => r.json());
       if (!t.link_token) throw new Error(t.error || "Plaid didn't give the app a link token.");
       await loadPlaidScript();
       const handler = window.Plaid!.create({
