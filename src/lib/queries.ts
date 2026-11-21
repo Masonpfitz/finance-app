@@ -136,7 +136,7 @@ export function monthToDate(): Insight {
   if (top) {
     const was = old.get(top.id) ?? 0;
     const diff = top.cents - was;
-    sentence = `${top.name} is your biggest category at ${usd(top.cents)}` + (was > 0 ? `, ${diff >= 0 ? "up" : "down"} ${usd(Math.abs(diff))} from this point in ${monthLabel(prev, false)}.` : ".");
+    sentence = `${top.name} is your biggest category at ${usd(top.cents)}` + (was > 0 ? (diff === 0 ? `, the same as this point in ${monthLabel(prev, false)}.` : `, ${diff > 0 ? "up" : "down"} ${usd(Math.abs(diff))} from this point in ${monthLabel(prev, false)}.`) : ".");
   }
   return { spendNow, spendPrev, deltaPct, topCategory: top?.name ?? null, sentence };
 }

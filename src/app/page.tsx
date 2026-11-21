@@ -45,6 +45,8 @@ export default function Dashboard() {
     ? `${t.net >= monthAgo.cents ? "Up" : "Down"} ${usd(Math.abs(t.net - monthAgo.cents))} since ${new Date(monthAgo.date + "T00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}.`
     : "The shape fills in as the app syncs each day.";
 
+  // A trend line needs a few real months behind it; a flat run of zeros then a jump says nothing.
+  const shape = (v: number[]) => (v.filter((x) => x !== 0).length >= 3 ? v : null);
   const saved = thisMonth.income - thisMonth.spend;
   const keptPct = thisMonth.income > 0 ? Math.round((saved / thisMonth.income) * 100) : null;
   const recent = listTransactions({ limit: 8 }).rows;
@@ -69,7 +71,7 @@ export default function Dashboard() {
           value={usd(thisMonth.spend)}
           delta={mtd.deltaPct}
           deltaLabel={`vs ${monthLabel(prev, false)} so far`}
-          series={series.map((s) => s.spend / 100)}
+          series={shape(series.map((s) => s.spend / 100))}
           insight={mtd.sentence ?? "No spending recorded this month yet."}
         />
         <StatCard
@@ -78,14 +80,14 @@ export default function Dashboard() {
           value={usd(thisMonth.income)}
           delta={incomeDelta}
           deltaLabel={`vs ${monthLabel(prev, false)} so far`}
-          series={series.map((s) => s.income / 100)}
+          series={shape(series.map((s) => s.income / 100))}
           insight={lastMonth && lastMonth.income > 0 ? `${monthLabel(prev, false)} brought in ${usd(lastMonth.income)} in total.` : undefined}
         />
         <StatCard
           label="Kept this month"
           icon="chart-up"
           value={usd(saved)}
-          series={series.map((s) => (s.income - s.spend) / 100)}
+          series={shape(series.map((s) => (s.income - s.spend) / 100))}
           insight={keptPct !== null ? `${keptPct >= 0 ? `You kept ${keptPct}% of what came in.` : `You spent ${Math.abs(keptPct)}% more than came in.`} Card payments and transfers don't count.` : "Income shows up here once a paycheck lands."}
         />
       </StatRow>

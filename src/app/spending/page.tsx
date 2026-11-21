@@ -62,7 +62,7 @@ export default async function SpendingPage({ searchParams }: { searchParams: Pro
                         <span className="tnum w-9 text-right text-[12px] text-ink-2">{Math.round((c.cents / total) * 100)}%</span>
                       </span>
                       <span className="tnum text-right font-medium">{usd(c.cents)}</span>
-                      <span className="tnum text-right text-[12px] text-ink-2">{was === 0 ? "new" : `${diff >= 0 ? "+" : "−"}${usd(Math.abs(diff))}`}</span>
+                      <span className="tnum text-right text-[12px] text-ink-2">{was === 0 ? "new" : diff === 0 ? "no change" : `${diff > 0 ? "+" : "−"}${usd(Math.abs(diff))}`}</span>
                     </div>
                   );
                 })}

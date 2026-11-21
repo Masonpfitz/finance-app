@@ -2,6 +2,7 @@
 // Checks that the running app refuses writes it shouldn't accept. Start the app first (npm start),
 // then run: npm run check:security
 import fs from "node:fs";
+import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -37,8 +38,13 @@ try {
   check("preflight from another origin is refused and sends no CORS headers", r.status === 403 && !r.headers.get("access-control-allow-origin"), `status ${r.status}`);
   r = await fetch(base + "/api/status", { headers: { origin: "http://localhost:9999" } });
   check("no read response carries Access-Control-Allow-Origin", !r.headers.get("access-control-allow-origin"));
-  r = await fetch(base + "/api/status", { headers: { host: "evil.example.com" } }).catch(() => null);
-  check("foreign Host header is refused", !r || r.status === 403, r ? `status ${r.status}` : "connection refused");
+  // fetch() won't let a script change the Host header, so use a raw request for this one.
+  const hostStatus = await new Promise((resolve) => {
+    const req = http.request({ host: "127.0.0.1", port, path: "/api/status", headers: { Host: "evil.example.com" } }, (res) => { res.resume(); resolve(res.statusCode); });
+    req.on("error", () => resolve(0));
+    req.end();
+  });
+  check("foreign Host header is refused", hostStatus === 403, `status ${hostStatus}`);
   r = await post({ ...json, origin: own }, JSON.stringify({ demo: before.demo }));
   check("write from the app's own origin is accepted", r.status === 200 || r.status === 409, `status ${r.status}`);
   r = await post({ ...json, "sec-fetch-site": "same-origin" }, JSON.stringify({ demo: before.demo }));
