@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens (neutrals, status tones, corners, buttons) live in theme.css and accent.css.
+   This file adds the few tokens the finance screens need and the shared layout classes. */
+
+@layer base {
+  :root {
+    /* Sage: the quiet green used for chart hatching and hovered bars. */
+    --sage: 157 180 165;
+    --sage-pale: 219 230 222;
+    --st-idle: var(--idle);       --st-idle-bg: var(--idle-bg);
+    --st-pending: var(--warn);    --st-pending-bg: var(--warn-bg);
+    --st-info: var(--info);       --st-info-bg: var(--info-bg);
+    --st-done: var(--accent-text); --st-done-bg: var(--accent-pale);
+    --st-alert: var(--bad);       --st-alert-bg: var(--bad-bg);
+    --cat-0: 48 144 166; --cat-1: 48 93 166; --cat-2: 55 48 166; --cat-3: 107 48 166;
+    --cat-4: 158 48 166; --cat-5: 166 48 123; --cat-6: 166 48 71; --cat-7: 166 77 48;
+  }
+  .dark,
+  [data-theme="dark"] {
+    --sage: 94 127 110;
+    --sage-pale: 40 56 48;
+  }
+
+  * { @apply border-line; }
+
+  body {
+    @apply bg-tray text-ink;
+    font-family: var(--font-sans);
+    font-feature-settings: "tnum" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  .tnum { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+  :focus-visible { outline: 2px solid rgb(var(--accent-text)); outline-offset: 2px; }
+  ::selection { background: rgb(var(--accent) / 0.28); }
+
+  [class*="rounded-control"], [class*="rounded-panel"], [class*="rounded-section"],
+  [class*="rounded-surface"], [class~="rounded-lg"], [class~="rounded-md"], [class~="rounded-sm"] {
+    corner-shape: var(--sq-shape);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  /* The one container: every page renders inside it, so no page sets its own width. */
+  .shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1320px;
+    padding: 28px 24px 56px;
+    overflow-x: clip;
+  }
+  .scroll-x { overflow-x: auto; contain: paint; scrollbar-width: none; }
+  .scroll-x::-webkit-scrollbar { display: none; }
+
+  .ledger-head {
+    display: grid; align-items: center; gap: 12px; padding: 0 12px 8px;
+    border-bottom: 1px solid rgb(var(--line)); font-size: 12px; font-weight: 500; color: rgb(var(--ink-2));
+  }
+  .ledger-row {
+    display: grid; align-items: center; gap: 12px; padding: 10px 12px;
+    border-bottom: 1px solid rgb(var(--line) / 0.7); font-size: 13px;
+    transition: background-color 0.12s ease;
+  }
+  .ledger-row:hover { background-color: var(--hover-fill); }
+  .ledger-row:last-child { border-bottom: none; }
+  .ledger-row-muted, .ledger-row-muted .text-ink { color: rgb(var(--ink-2)); }
+
+  .panel {
+    background-color: rgb(var(--card));
+    border: 1px solid transparent;
+    border-radius: calc(var(--r-card) * var(--sq-k));
+    corner-shape: var(--sq-shape);
+    box-shadow: var(--elev-card);
+    padding: 20px;
+  }
+  .surface {
+    background-color: rgb(var(--card));
+    border-radius: calc(var(--r-surface) * var(--sq-k));
+    corner-shape: var(--sq-shape);
+    box-shadow: var(--elev-card);
+  }
+  .tray-inset {
+    background-color: rgb(var(--inset-soft));
+    border-radius: calc(var(--r-control) * var(--sq-k));
+    corner-shape: var(--sq-shape);
+  }
+  .brand-mark {
+    color: rgb(var(--accent-ink));
+    background: linear-gradient(180deg, rgb(var(--accent-hi)) 0%, rgb(var(--accent)) 55%, rgb(var(--accent-lo)) 100%);
+    box-shadow: inset 0 1px 0 var(--accent-edge), inset 0 0 0 1px var(--accent-ring-in), 0 0 0 1px var(--accent-ring-out);
+  }
+  /* Category pill: the button recipe in the category's own hue (set inline). */
+  .cat-chip {
+    display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px;
+    border-radius: var(--r-pill); font-size: 12px; font-weight: 600; letter-spacing: -0.005em;
+    line-height: 1; white-space: nowrap;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.28), 0 0 0 1px rgb(0 0 0 / 0.18);
+  }
+  .figure { font-size: 44px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .figure-sm { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .label { font-size: 12px; font-weight: 500; color: rgb(var(--ink-2)); }
+}

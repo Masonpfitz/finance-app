@@ -1,0 +1,40 @@
+/* Accent: forest green, #2E5C49 */
+[data-accent="app"] {
+  --accent-hi: 57 101 83;
+  --accent: 46 92 73;
+  --accent-lo: 36 83 64;
+  --accent-ink: 255 255 255;
+  --accent-text: 46 92 73;
+  --accent-pale: 223 240 232;
+  --accent-edge: rgb(255 255 255 / 0.3);
+  --accent-edge-hover: rgb(255 255 255 / 0.35);
+  --accent-ring-in: rgb(115 147 133 / 0.34);
+  --accent-ring-in-hover: rgb(115 147 133 / 0.39);
+  --accent-ring-out: rgb(1 48 33 / 0.9);
+  --accent-ring-out-hover: rgb(1 48 33 / 0.95);
+  --accent-glow: 0 4px 12px -4px rgb(36 83 64 / 0.28);
+  --accent-glow-hover: 0 6px 18px -4px rgb(36 83 64 / 0.38);
+  --accent-hover-filter: brightness(1.04) saturate(1.05);
+}
+[data-accent="app"][data-theme="dark"],
+[data-accent="app"].dark,
+[data-accent="app"] [data-theme="dark"],
+[data-accent="app"] .dark,
+:is([data-theme="dark"], .dark) [data-accent="app"] {
+  --accent-hi: 63 121 97;
+  --accent: 51 111 87;
+  --accent-lo: 41 101 78;
+  --accent-ink: 255 255 255;
+  --accent-text: 72 151 120;
+  --accent-pale: 26 35 32;
+  --accent-edge: rgb(255 255 255 / 0.3);
+  --accent-edge-hover: rgb(255 255 255 / 0.35);
+  --accent-ring-in: rgb(127 167 149 / 0.34);
+  --accent-ring-in-hover: rgb(127 167 149 / 0.39);
+  --accent-ring-out: rgb(0 66 45 / 0.8);
+  --accent-ring-out-hover: rgb(0 66 45 / 0.85);
+  --accent-glow: 0 6px 18px -3px rgb(46 163 122 / 0.42);
+  --accent-glow-hover: 0 8px 26px -3px rgb(46 163 122 / 0.55);
+  --accent-hover-filter: brightness(1.04) saturate(1.05);
+}
+

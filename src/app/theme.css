@@ -1,0 +1,242 @@
+/* Theme tokens: neutrals, corners, edges, status tones and the button recipe. Light and dark. */
+
+:root,
+[data-theme="light"] {
+  /* ── Neutrals ────────────────────────────────────────────────────────────── */
+  --tray: 240 242 244;       /* #f0f2f4 app background, the recessed layer  */
+  --card: 255 255 255;       /* #ffffff floating sheets and panels  */
+  --pop: 255 255 255;        /* #ffffff menus, popovers and drawers over cards */
+  --inset: 228 231 235;      /* #e4e7eb tracks and wells: segmented control, switch, skeleton  */
+  --inset-soft: 246 247 249; /* #f6f7f9 a card's header strip, row hover, quiet chips */
+  --track: 240 242 244;      /* #f0f2f4 segmented-control and switch tracks: --inset would put
+                                --ink-2 labels at 4.1:1, the tray keeps them at 4.7:1 */
+  --track-on: 255 255 255;   /* the selected segment sitting in a track */
+
+  --ink: 20 23 26;           /* #14171a text  */
+  --ink-2: 102 109 117;      /* #666d75 secondary text, 5.2:1 on card  */
+  --ink-3: 133 139 147;      /* #858b93 icons, placeholders, disabled only: 3.4:1, not for text  */
+
+  /* Fixed inks for text on a coloured fill: they do not flip with the theme. */
+  --on-dark: 255 255 255;
+  --on-light: 20 23 26;
+
+  --hairline: rgb(0 0 0 / 0.06);          
+  --hairline-strong: rgb(0 0 0 / 0.1);    
+  /* An opaque in-card hairline for rules and control borders. */
+  --line: 223 226 231;                    /* #dfe2e7 */
+  --hover-fill: rgb(20 23 26 / 0.045);    /* ghost hover, row hover on a card */
+  --scrim: rgb(20 23 26 / 0.2);           /* behind a drawer */
+
+  /* The top-edge light: a 1px inset shadow on the top only, always the FIRST shadow layer.
+     It is what makes a container read "ever so slightly 3D" . */
+  --edge: inset 0 1px 0 rgb(255 255 255 / 0.9);
+
+  --shadow-card: 0 6px 16px rgb(20 23 26 / 0.07);                                           
+  --shadow-raised: 0 1px 2px rgb(20 23 26 / 0.05), 0 2px 6px rgb(20 23 26 / 0.06);
+  --shadow-pop: 0 2px 4px rgb(20 23 26 / 0.05), 0 14px 32px -10px rgb(20 23 26 / 0.18);    /* site --shadow-float */
+  --shadow-lift: 0 4px 8px -4px rgb(20 23 26 / 0.12), 0 12px 18px -2px rgb(20 23 26 / 0.1); 
+
+  /* Composed elevations. Use these, not the parts, so every surface stacks the same way. */
+  --elev-card: var(--edge), 0 0 0 1px var(--hairline), var(--shadow-card);
+  --elev-raised: var(--edge), 0 0 0 1px var(--hairline), var(--shadow-raised);
+  --elev-pop: var(--edge), 0 0 0 1px var(--hairline-strong), var(--shadow-pop);
+
+  /* Secondary button : translucent white over whatever it sits on. */
+  --btn-quiet-bg: rgb(255 255 255 / 0.86);   /* site --glass-strong */
+  --btn-quiet-hover: 240 242 244;            /* site --surface */
+  --btn-quiet-shadow: var(--edge), 0 0 0 1px var(--hairline-strong), 0 2px 6px rgb(20 23 26 / 0.05); 
+
+  /* Tooltip: the inverse of the page, so it reads as an overlay in both themes. */
+  --tooltip-bg: 20 23 26;
+  --tooltip-ink: 255 255 255;
+
+  /* ── Status tones ───────────────────────────────────────────────────────── *
+   * Ink on its own pale fill AND on a bare card both clear 4.5:1 (measured by
+   * scripts/contrast-report.py; numbers in the README). The glyph carries the state;
+   * colour only reinforces it. A studio whose accent sits within ~35 degrees of a tone
+   * moves the TONE, not the accent, and says so in its globals.css. */
+  --idle: 87 93 100;       --idle-bg: 235 237 239;   /* #575d64 on #ebedef */
+  --warn: 132 85 10;       --warn-bg: 251 240 223;   /* #84550a on #fbf0df */
+  --info: 43 90 162;       --info-bg: 226 235 248;   /* #2b5aa2 on #e2ebf8 */
+  --good: 17 113 57;       --good-bg: 227 252 238;   /* #117139 on #e3fcee */
+  --bad: 152 65 38;        --bad-bg: 248 231 226;    /* #984126 on #f8e7e2 */
+  --bad-fill: 168 71 42;   /* #a8472a: solid alert fill (count badges) with white text, 5.8:1 */
+
+
+  /* ── Corners: rounder than a squircle  ────────────────────────────── *
+   * superellipse(1.3) at 1.73x the base radius where corner-shape exists; a circular
+   * corner at 1.23x elsewhere, which lands close to the same look. Buttons use this
+   * shape and are never pills. Nested corners stay concentric: inner = outer - gap. */
+  --sq-k: 1.23;
+  --sq-shape: superellipse(1.3);
+  --r-surface: 24px;   /* the content sheet on the tray */
+  --r-card: 20px;      /* panels */
+  --r-section: 16px;   /* popovers, nested blocks */
+  --r-control: 12px;   /* buttons, inputs, selects, icon buttons, nav rows */
+  --r-pill: 999px;     /* chips, status pills, segmented tracks: plain round */
+
+  /* ── Type  ──────────────── */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter Variable", "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ── Motion  ──────────────────────────────────────────────────────── */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 120ms;
+  --dur: 180ms;
+
+  color-scheme: light;
+}
+
+@supports (corner-shape: squircle) {
+  :root { --sq-k: 1.73; }
+}
+
+[data-theme="dark"],
+.dark {
+  /* Neutrals. Elevation reads lighter-on-darker. */
+  --tray: 10 10 10;          /* #0a0a0a  */
+  --card: 21 21 21;          /* #151515  */
+  --pop: 29 29 29;           /* #1d1d1d one step up, so a menu separates from the card under it */
+  --inset: 32 32 32;         /* #202020  */
+  --inset-soft: 27 27 27;    /* #1b1b1b */
+  --track: 32 32 32;         /* #202020 = --inset: a well reads lighter than the card in dark */
+  --track-on: 44 44 44;      /* #2c2c2c the site's selected segment in dark */
+
+  --ink: 236 238 241;        /* #eceef1  */
+  --ink-2: 155 162 170;      /* #9ba2aa, 7.1:1 on card  */
+  --ink-3: 111 118 126;      /* #6f767e icons, placeholders, disabled only  */
+
+  --hairline: rgb(255 255 255 / 0.08);        
+  --hairline-strong: rgb(255 255 255 / 0.13); 
+  --line: 44 44 44;                           /* #2c2c2c = 13% white over the card, the site's strong hairline */
+  --hover-fill: rgb(255 255 255 / 0.055);
+  --scrim: rgb(0 0 0 / 0.5);
+
+  --edge: inset 0 1px 0 rgb(255 255 255 / 0.07); 
+
+  --shadow-card: 0 6px 16px rgb(0 0 0 / 0.35);                                        
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.4), 0 2px 6px rgb(0 0 0 / 0.3);
+  --shadow-pop: 0 2px 4px rgb(0 0 0 / 0.3), 0 14px 32px -10px rgb(0 0 0 / 0.6);      /* site --shadow-float */
+  --shadow-lift: 0 4px 8px -4px rgb(0 0 0 / 0.5), 0 12px 18px -2px rgb(0 0 0 / 0.4); 
+
+  --btn-quiet-bg: rgb(21 21 21 / 0.82);   /* site --glass-strong */
+  /* Site hover is --surface (#151515), which is the card itself in a studio and would
+     not move; one step up instead. */
+  --btn-quiet-hover: 34 34 34;
+  --btn-quiet-shadow: var(--edge), 0 0 0 1px var(--hairline-strong), 0 2px 6px rgb(0 0 0 / 0.25);
+
+  --tooltip-bg: 236 238 241;
+  --tooltip-ink: 20 23 26;
+
+  --idle: 143 155 170;     --idle-bg: 29 35 43;   /* #8f9baa on #1d232b */
+  --warn: 207 147 50;      --warn-bg: 45 38 26;   /* #cf9332 on #2d261a */
+  --info: 110 155 221;     --info-bg: 26 34 45;   /* #6e9bdd on #1a222d */
+  --good: 30 185 94;       --good-bg: 26 45 34;   /* #1eb95e on #1a2d22 */
+  --bad: 220 131 104;      --bad-bg: 45 31 26;    /* #dc8368 on #2d1f1a */
+  --bad-fill: 168 71 42;
+
+
+  color-scheme: dark;
+}
+
+/* ── Corner helper  ─────────────────────────────────────────────── */
+.sq {
+  border-radius: calc(var(--r, var(--r-card)) * var(--sq-k));
+  corner-shape: var(--sq-shape);
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────────
+ * The gold button's recipe : a vertical gradient hi -> base -> lo,
+ * a lighter inner ring, a darker outer ring, the inset top-edge light, and a same-hue
+ * glow that is soft in light and truer in dark. Written once against the --accent-*
+ * vars in accents.css; a studio only picks its set with <html data-accent="...">.
+ *
+ * Size, padding and font size stay with the studio's own control scale. Selectors are
+ * two classes deep (.btn.btn-primary) so preflight's [type=button] reset never wins. */
+.btn {
+  --r: var(--r-control);
+  border-radius: calc(var(--r) * var(--sq-k));
+  corner-shape: var(--sq-shape);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  transition:
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    filter var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+.btn:active:not(:disabled) { transform: scale(0.98); }
+
+.btn.btn-primary,
+.btn.btn-danger {
+  color: rgb(var(--accent-ink));
+  background: linear-gradient(180deg, rgb(var(--accent-hi)) 0%, rgb(var(--accent)) 55%, rgb(var(--accent-lo)) 100%);
+  box-shadow:
+    inset 0 1px 0 var(--accent-edge),
+    inset 0 0 0 1px var(--accent-ring-in),
+    0 0 0 1px var(--accent-ring-out),
+    var(--accent-glow);
+}
+.btn.btn-primary:hover:not(:disabled),
+.btn.btn-danger:hover:not(:disabled) {
+  /* The site's gold hover is brightness(1.04) saturate(1.05). Brightening lowers white
+     ink's contrast, so each accent carries its own measured filter (accents.css): gold
+     keeps the site's, a white-ink accent brightens only as far as 4.5:1 allows. */
+  filter: var(--accent-hover-filter, brightness(1.04) saturate(1.05));
+  box-shadow:
+    inset 0 1px 0 var(--accent-edge-hover),
+    inset 0 0 0 1px var(--accent-ring-in-hover),
+    0 0 0 1px var(--accent-ring-out-hover),
+    var(--accent-glow-hover);
+}
+
+/* Sizes, for pages without a component library (plain HTML). A Tailwind studio sets
+   the same numbers in its button primitive instead. md is the site's button type
+   (14.5px/600 with 18px sides) at the studio control height of 36px. */
+.btn-sm,
+.btn-md,
+.btn-lg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn-sm { height: 32px; padding: 0 12px; font-size: 13px; }
+.btn-md { height: 36px; padding: 0 18px; font-size: 14.5px; }
+.btn-lg { height: 44px; padding: 0 22px; font-size: 15.5px; }
+
+/* Secondary . */
+.btn.btn-secondary {
+  color: rgb(var(--ink));
+  background: var(--btn-quiet-bg);
+  box-shadow: var(--btn-quiet-shadow);
+}
+.btn.btn-secondary:hover:not(:disabled) { background: rgb(var(--btn-quiet-hover)); }
+
+/* Ghost: chrome actions. No fill until hovered; monochrome, never the accent. */
+.btn.btn-ghost {
+  color: rgb(var(--ink-2));
+  background: transparent;
+}
+.btn.btn-ghost:hover:not(:disabled) {
+  color: rgb(var(--ink));
+  background: var(--hover-fill);
+}
+
+/* A disabled button keeps its shape and loses its glow, so it stops asking to be pressed. */
+.btn:disabled { cursor: not-allowed; opacity: 0.45; }
+.btn.btn-primary:disabled,
+.btn.btn-danger:disabled {
+  box-shadow: inset 0 0 0 1px var(--accent-ring-in), 0 0 0 1px var(--accent-ring-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition-duration: 0.01ms; }
+  .btn:active:not(:disabled) { transform: none; }
+}
+

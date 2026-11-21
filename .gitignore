@@ -1,0 +1,14 @@
+# Your secrets and your data never leave your computer.
+.env
+.env.local
+.env.*.local
+data/*.db
+data/*.db-*
+data/mode.json
+data/*.log
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
