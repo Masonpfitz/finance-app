@@ -1,6 +1,7 @@
 {
   "name": "finance-app",
   "version": "1.0.0",
+  "license": "MIT",
   "private": true,
   "description": "A private finance dashboard that runs on your own computer. Reads balances and transactions through Plaid (read-only) and keeps everything in one local file.",
   "engines": {

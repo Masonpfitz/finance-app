@@ -114,3 +114,7 @@ Restart the app after you edit `.env` by hand. Changes made on the Setup page ap
 Next.js 15 with React 19 and Tailwind 3, the `plaid` package, and Node's built-in `node:sqlite` for storage, so there are no native modules to compile. Run `npm run dev` for development and `npm run typecheck` before committing. `src/lib/queries.ts` holds the counting rules, `src/lib/categorize.ts` the category logic, `src/lib/sync.ts` the Plaid sync, and `src/lib/scheduler.ts` the daily job.
 
 With the app running, `npm run check:security` confirms it refuses writes from other origins, and `npm run sandbox-check` runs a fake bank connection and sync through Plaid's Sandbox (save your Sandbox keys on the Setup page first).
+
+## License
+
+MIT. You can use it, change it and share it. See `LICENSE`.
